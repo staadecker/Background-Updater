@@ -36,12 +36,10 @@ if response is None:
 # Parse JSON Data
 jsonData = json.loads(response.data.decode("utf-8"))
 imageURLExtension = jsonData["images"][0]["url"]
-copyrightInfo = jsonData["images"][0]["copyright"]
-fileName = copyrightInfo \
-               .replace("/", " ").replace("(", " ").replace(")", " ") + ".jpg"  # Remove characters that cause errors
+fileName = jsonData["images"][0]["copyright"].replace("/", " ")  # Remove "/" because causes error
 
 # Save image from URL to file
 urllib.request.urlretrieve("http://www.bing.com" + imageURLExtension, resourceFolder + fileName)
 
 # Update Gnome background
-os.system('gsettings set org.gnome.desktop.background picture-uri' + " 'file://" + resourceFolder + fileName + "'")
+os.system('gsettings set org.gnome.desktop.background picture-uri' + ' "file://' + resourceFolder + fileName + '"')
